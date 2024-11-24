@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block body %}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-2">
+        <h1>Log in</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Log in</button>
+            <br><br>
+
+            <span>Don't have an account? <a href="{% url 'core:register' %}">Sign Up</a></span>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

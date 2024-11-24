@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block body %}
+<div class="col-6 mx-auto" style="margin:20px;">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>TODO</h1>
+            <a href="{% url 'core:create_list' %}"><h5 style="font-weight: normal;margin-bottom: 10px;"><i
+                    class="bi bi-plus-circle"></i>&nbsp;Create new list</h5></a>
+        </div>
+        <div>
+            <form method="post" action="{% url 'core:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">Log Out</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    <div class="d-flex flex-row flex-wrap">
+        {% for list in lists_of_tasks %}
+
+        <a href="{% url 'core:list_detail' list.pk %}">
+            <div class="card d-flex" style="margin: 5px; padding: 5px; width: 15rem; height: 10rem;">
+                <b>{{ list.name }}</b>
+                {% for task in list.tasks.all|slice:":3" %}
+                {{ task.text|truncatechars:25 }}<br>
+
+                {% endfor %}
+
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

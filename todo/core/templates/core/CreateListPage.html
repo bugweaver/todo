@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block body %}
+<div class="col-2 mx-auto" style="margin:20px;">
+    <h1>Create List</h1><br>
+    <a href="{% url 'core:home' %}">
+        <h4 style="font-weight: normal; margin-bottom: 20px;"><i class="bi bi-arrow-left-circle" style="color: #0d6efd;"></i>&nbsp;Back
+            home</h4>
+    </a>
+    <form method="post">
+        {% csrf_token %}
+        {{ list_form.as_p }}
+
+        <div id="taskFields">
+            {{ task_form.as_p }}
+        </div>
+
+        <button type="button" onclick="addTaskField()" class="btn btn-dark">Add another task</button>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+
+</div>
+<script>
+    let taskCounter = 1
+
+    function addTaskField() {
+        taskCounter++;
+
+        // Создаем новый элемент div для обертки
+        const newTaskDiv = document.createElement('div');
+
+        // Создаем новый элемент input для задачи
+        const newTaskField = document.createElement('input');
+        newTaskField.type = 'text';
+        newTaskField.name = 'tasks';  // Имя поля для задач
+        newTaskField.placeholder = `Task ${taskCounter}`;
+        newTaskField.required = true;  // Делаем поле обязательным
+        newTaskField.style.width = '300px';
+
+        // Добавляем новый элемент input в div
+        newTaskDiv.appendChild(newTaskField);
+        newTaskDiv.style.marginBottom = '15px';
+
+
+        // Добавляем новый div в контейнер
+        document.getElementById('taskFields').appendChild(newTaskDiv);
+    }
+</script>
+
+{% endblock %}

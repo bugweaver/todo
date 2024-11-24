@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+
+{% block body %}
+<div class="col-2 mx-auto" style="margin: 20px;">
+    <h1>Update List</h1>
+
+    <a href="{% url 'core:list_detail' list_id %}">
+        <h4 style="font-weight: normal;margin-bottom: 20px; margin-top: 10px;"><i class="bi bi-arrow-left-circle"
+                                                                                  style="color: #0d6efd;"></i>&nbsp;Back
+            to the list</h4>
+    </a>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ list_form.as_p }}
+
+        <div id="taskFields" style="display: none;">
+            {{ task_form.as_p }}
+        </div>
+
+        <button type="button" onclick="addTaskField()" class="btn btn-dark">Add another task</button>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+</div>
+
+<script>
+    let taskCounter = 0
+
+    function addTaskField() {
+
+        if (taskCounter === 0) {
+            document.getElementById('taskFields').style.display = 'block';
+        }
+        taskCounter++;
+
+        if (taskCounter >= 2) {
+            const newTaskDiv = document.createElement('div');
+
+            const newTaskField = document.createElement('input');
+            newTaskField.type = 'text';
+            newTaskField.name = 'tasks';  // Имя поля для задач
+            newTaskField.placeholder = `Task ${taskCounter}`;
+            newTaskField.required = false;  // Делаем поле обязательным
+            newTaskField.style.width = '300px';
+
+            newTaskDiv.appendChild(newTaskField);
+            newTaskDiv.style.marginBottom = '15px';
+
+
+            document.getElementById('taskFields').appendChild(newTaskDiv);
+        }
+
+    }
+</script>
+
+{% endblock %}
